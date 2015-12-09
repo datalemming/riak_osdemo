@@ -3,12 +3,12 @@
 ###
 #This iterates through the list of bboxes and geohashs
 #truncates the geohashes to the required length
-#$precision=5 gives a 5km by 5km extent.  See wikipedia
+#$precision=2 gives a 1252km by 624km extent.  See wikipedia
 #for further possible values.
 #This then outputs to stdout a csv list of 
 #TruncatedGeohash,PolygonIndex:PolygonIndex etc \n
 #
-#SMDE 18/11/15
+#SMDE 25/11/15
 ###
 
 use File::Slurp;
@@ -18,7 +18,7 @@ use Data::Dumper;
 my @lines=read_file('boxes-and-hashes.csv');
 my %ghs;
 my ($line, $index, $gh, $truncgh, $vals, $vals1);
-my $precision=4; #can be changed for other extents, see wikipedia for table
+my $precision=2; #can be changed for other extents, see wikipedia for table
 
 foreach $line (@lines) {
 	#say $line;

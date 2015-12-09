@@ -9,6 +9,10 @@ SMDE
 
 Changed to 4 characters in geohash
 23/11/15 SMDE
+
+Changed to include content_type as test/plain as default python one is json and this
+was causing issues.
+25/11/15 SMDE
 '''
 
 
@@ -19,8 +23,8 @@ import riak
 
 myc=riak.RiakClient(pb_port=8087, protocol='pbc')
 print myc
-myb=myc.bucket('4c-extents', bucket_type="osd")
-print myb
+bucket=myc.bucket_type('osd').bucket('new-4c-extents')
+print bucket
 
 #iterate through csv file and add each to the bucket
 with open("gh-4char.csv",'rb') as csvfile:
@@ -29,7 +33,8 @@ with open("gh-4char.csv",'rb') as csvfile:
 		mykey=row[0]
 		myval=row[1]
 		print "Processing" + mykey + "  "+myval
-		action1=myb.new(mykey,data=myval)
-		action1.store()
-		print "Stored"
+		obj=riak.riak_object.RiakObject(myc,bucket,mykey)
+		obj.content_type='text/plain'
+		obj.data=myval
+		obj.store()
 
